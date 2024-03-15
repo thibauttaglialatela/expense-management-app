@@ -1,13 +1,13 @@
 import "./App.css";
 import SelectCategory from "./components/SelectCategory";
 import AddExpense from "./components/AddExpense";
-import { useReducer } from "react";
+import ExpensesList from "./components/ExpensesList";
+import { useEffect, useReducer } from "react";
 
 function App() {
-
   const initialState = {
-    category:'',
-    amount: 0
+    selectedCategory: "",
+    categoryList: [],
   };
 
   const reducer = (state, action) => {
@@ -15,29 +15,45 @@ function App() {
       case "selectCategory":
         return {
           ...state,
-          category: action.payload,
+          selectedCategory: action.payload.category,
+        };
+      case 'addExpense':
+        return {
+          ...state,
+          categoryList: [
+            ...state.categoryList,
+            { category: state.selectedCategory, amount: action.payload.amount }
+          ],
         }
       default:
         return state;
     }
-  }
+  };
 
   const [state, dispatch] = useReducer(reducer, initialState);
 
   function handleSelectCategory(selectedCategory) {
-    dispatch({ type: "selectCategory", payload: selectedCategory });
+    dispatch({ type: "selectCategory", payload: {category: selectedCategory} });
   }
+
+  function handleAddExpense(amount) {
+    dispatch({ type: "addExpense", payload: { amount: amount}})
+  }
+
+useEffect(() => {
+  console.log("Catégories sélectionnées :", state.categoryList)
+}, [state.categoryList]);
+  
   return (
     <>
       <h1 className="mb-2 mt-0 text-5xl font-medium leading-tight text-cyan-500">
         Mon application de gestion des dépenses
       </h1>
       <div className="flex justify-center items-center h-screen flex-col">
-      <AddExpense />
-      <SelectCategory onSelectCategory={handleSelectCategory}/>
-      <p>Catégorie choisie : {state.category}</p>
+        <AddExpense onSelectAmount={handleAddExpense} />
+        <SelectCategory onSelectCategory={handleSelectCategory} />
+        <ExpensesList categoryList={state.categoryList}/>
       </div>
-      
     </>
   );
 }
