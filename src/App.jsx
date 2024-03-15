@@ -1,27 +1,20 @@
 import "./App.css";
-import SelectCategory from "./components/SelectCategory";
-import AddExpense from "./components/AddExpense";
+import ExpenseForm from "./components/ExpenseForm";
 import ExpensesList from "./components/ExpensesList";
-import { useEffect, useReducer } from "react";
+import { useReducer } from "react";
 
 function App() {
   const initialState = {
-    selectedCategory: "",
     categoryList: [],
   };
 
   const reducer = (state, action) => {
     switch (action.type) {
-      case "selectCategory":
-        return {
-          ...state,
-          selectedCategory: action.payload.category,
-        };
       case "addExpense":
         // eslint-disable-next-line no-case-declarations
         const newExpense = {
           id: Date.now(),
-          category: state.selectedCategory,
+          category: action.payload.category,
           amount: action.payload.amount,
         };
         return {
@@ -35,23 +28,10 @@ function App() {
 
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  useEffect(() => {
-    if (state.selectedCategory !== "") {
-      dispatch({ type: "addExpense", payload: { amount: state.amount}})
-    }
-  }, [state.selectedCategory, state.amount])
 
-  function handleSelectCategory(selectedCategory) {
-    dispatch({
-      type: "selectCategory",
-      payload: { category: selectedCategory },
-    });
+  function handleAddExpense(category,amount) {
+    dispatch({ type: "addExpense", payload: { category, amount } });
   }
-
-  function handleAddExpense(amount) {
-    dispatch({ type: "addExpense", payload: { amount: amount } });
-  }
-
 
   return (
     <>
@@ -59,8 +39,7 @@ function App() {
         Mon application de gestion des dépenses
       </h1>
       <div className="flex justify-center items-center h-screen flex-col">
-        <AddExpense onSelectAmount={handleAddExpense} />
-        <SelectCategory onSelectCategory={handleSelectCategory} />
+        <ExpenseForm onSubmit={handleAddExpense}/>
         <ExpensesList categoryList={state.categoryList} />
       </div>
     </>
