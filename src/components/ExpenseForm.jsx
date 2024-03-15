@@ -15,7 +15,7 @@ const ExpenseForm = ({ onSubmit }) => {
   };
 
   return (
-    <div className="flex justify-between">
+    <div className="flex justify-between gap-4">
       <SelectCategory onSelectCategory={setSelectedCategory} />
       <AddExpense onSelectAmount={setAmount} />
       <button
@@ -24,7 +24,7 @@ const ExpenseForm = ({ onSubmit }) => {
         focus:outline-none focus:ring active:bg-indigo-500"
         onClick={handleAddExpense}
       >
-        Submit
+        Enregistrer
       </button>
     </div>
   );

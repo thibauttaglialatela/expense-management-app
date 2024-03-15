@@ -40,7 +40,10 @@ function App() {
       </h1>
       <div className="flex justify-center items-center h-screen flex-col">
         <ExpenseForm onSubmit={handleAddExpense}/>
+        <div className="w-screen">
         <ExpensesList categoryList={state.categoryList} />
+        </div>
+       
       </div>
     </>
   );
