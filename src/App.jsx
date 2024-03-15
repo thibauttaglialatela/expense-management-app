@@ -17,14 +17,17 @@ function App() {
           ...state,
           selectedCategory: action.payload.category,
         };
-      case 'addExpense':
+      case "addExpense":
+        // eslint-disable-next-line no-case-declarations
+        const newExpense = {
+          id: Date.now(),
+          category: state.selectedCategory,
+          amount: action.payload.amount,
+        };
         return {
           ...state,
-          categoryList: [
-            ...state.categoryList,
-            { category: state.selectedCategory, amount: action.payload.amount }
-          ],
-        }
+          categoryList: [...state.categoryList, newExpense],
+        };
       default:
         return state;
     }
@@ -33,17 +36,20 @@ function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   function handleSelectCategory(selectedCategory) {
-    dispatch({ type: "selectCategory", payload: {category: selectedCategory} });
+    dispatch({
+      type: "selectCategory",
+      payload: { category: selectedCategory },
+    });
   }
 
   function handleAddExpense(amount) {
-    dispatch({ type: "addExpense", payload: { amount: amount}})
+    dispatch({ type: "addExpense", payload: { amount: amount } });
   }
 
-useEffect(() => {
-  console.log("Catégories sélectionnées :", state.categoryList)
-}, [state.categoryList]);
-  
+  useEffect(() => {
+    console.log("Catégories sélectionnées :", state.categoryList);
+  }, [state.categoryList]);
+
   return (
     <>
       <h1 className="mb-2 mt-0 text-5xl font-medium leading-tight text-cyan-500">
@@ -52,7 +58,7 @@ useEffect(() => {
       <div className="flex justify-center items-center h-screen flex-col">
         <AddExpense onSelectAmount={handleAddExpense} />
         <SelectCategory onSelectCategory={handleSelectCategory} />
-        <ExpensesList categoryList={state.categoryList}/>
+        <ExpensesList categoryList={state.categoryList} />
       </div>
     </>
   );

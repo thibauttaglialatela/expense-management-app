@@ -15,12 +15,16 @@ const ExpensesList = ({ categoryList }) => {
 
         <tbody className="divide-y divide-gray-200">
           <tr>
-            <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+            {/* <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
               John Doe
             </td>
             <td className="whitespace-nowrap px-4 py-2 text-gray-700">
               24/05/1995
-            </td>
+            </td> */}
+{
+    categoryList.map((item))
+}
+
           </tr>
 
         </tbody>
