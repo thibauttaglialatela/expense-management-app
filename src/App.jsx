@@ -35,6 +35,12 @@ function App() {
 
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  useEffect(() => {
+    if (state.selectedCategory !== "") {
+      dispatch({ type: "addExpense", payload: { amount: state.amount}})
+    }
+  }, [state.selectedCategory, state.amount])
+
   function handleSelectCategory(selectedCategory) {
     dispatch({
       type: "selectCategory",
@@ -46,9 +52,6 @@ function App() {
     dispatch({ type: "addExpense", payload: { amount: amount } });
   }
 
-  useEffect(() => {
-    console.log("Catégories sélectionnées :", state.categoryList);
-  }, [state.categoryList]);
 
   return (
     <>

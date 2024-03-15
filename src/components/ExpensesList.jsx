@@ -1,4 +1,5 @@
 const ExpensesList = ({ categoryList }) => {
+  console.log("categoryList: ", categoryList);
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full divide-y-2 divide-gray-200 bg-white text-sm">
@@ -14,19 +15,18 @@ const ExpensesList = ({ categoryList }) => {
         </thead>
 
         <tbody className="divide-y divide-gray-200">
-          <tr>
-            {/* <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
-              John Doe
-            </td>
-            <td className="whitespace-nowrap px-4 py-2 text-gray-700">
-              24/05/1995
-            </td> */}
-{
-    categoryList.map((item))
-}
-
-          </tr>
-
+          {categoryList.map((expense) => {
+            return (
+              <tr key={expense.id}>
+                <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+                  {expense.category}
+                </td>
+                <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+                  {expense.amount}
+                </td>
+              </tr>
+            );
+          })}
         </tbody>
       </table>
     </div>
