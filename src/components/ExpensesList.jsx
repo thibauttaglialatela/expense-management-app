@@ -27,6 +27,14 @@ const ExpensesList = ({ categoryList }) => {
             );
           })}
         </tbody>
+        <tfooter>
+          <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">
+            Total
+          </td>
+          <td className="whitespace-nowrap px-4 py-2 text-gray-700">
+            {categoryList.reduce((acc, current) => acc + parseInt(current.amount), 0)}
+          </td>
+        </tfooter>
       </table>
     </div>
   );
